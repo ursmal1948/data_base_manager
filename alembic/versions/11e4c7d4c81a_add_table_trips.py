@@ -1,8 +1,8 @@
-"""add trips table
+"""add table trips
 
-Revision ID: 3edc66c34355
+Revision ID: 11e4c7d4c81a
 Revises: 
-Create Date: 2024-05-31 22:07:40.885697
+Create Date: 2024-05-31 23:16:44.902295
 
 """
 from typing import Sequence, Union
@@ -11,7 +11,7 @@ from alembic import op
 import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
-revision: str = '3edc66c34355'
+revision: str = '11e4c7d4c81a'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,7 +25,6 @@ def upgrade() -> None:
         sa.Column('price', sa.DECIMAL),
         sa.Column('tourists_number', sa.Integer, default=0),
         sa.Column('agency_id', sa.Integer, nullable=False),
-
     )
 
 

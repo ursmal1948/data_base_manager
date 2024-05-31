@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 alembic = "*"
 sqlalchemy = "*"
+coverage = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
