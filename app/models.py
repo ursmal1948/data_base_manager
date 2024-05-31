@@ -95,6 +95,20 @@ class Trip:
             connection.commit()
 
 
+@dataclass
+class TravelAgency:
+    id: int
+    name: str
+    city: str
+
+    def __eq__(self, other):
+        return isinstance(other,
+                          TravelAgency) and self.id == other.id
+
+    def __hash__(self):
+        return hash((self.id,))
+
+
 def main() -> None:
     # trip1 = Trip(destination='Majorka', price=Decimal('10000'), tourists_number=20, agency_id=2)
     # trip2 = Trip(destination='OSLO', price=Decimal('20'), tourists_number=100, agency_id=1)
@@ -103,8 +117,11 @@ def main() -> None:
 
     # print(os.getenv('DATABASE_NAME'))
     # print(Trip.insert(Trip(destination='STH', price=Decimal('2000'), tourists_number=50, agency_id=4)))
-    print(Trip.delete_by_id(3))
-    print(Trip.find_all())
+    # print(Trip.delete_by_id(3))
+    # print(Trip.find_all())
+    print(Trip.find_all_by_agency_id(1))
+
+
 
 if __name__ == '__main__':
     main()
