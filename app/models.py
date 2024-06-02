@@ -41,7 +41,7 @@ class Trip:
     def find_all_by_agency_id(agency_id: int) -> list['Trip']:
         with sqlite3.connect(Trip.DB_NAME) as conn:
             cursor = conn.cursor()
-            sql = f'select * from trips t where t.agency_id={agency_id}'
+            sql = f'select * from trips where agency_id={agency_id}'
             cursor.execute(sql)
             return [Trip(*row) for row in cursor.fetchall()]
 
@@ -49,7 +49,7 @@ class Trip:
     def find_by_id(cls, id_: int) -> 'Trip':
         with sqlite3.connect(Trip.DB_NAME) as connection:
             cursor = connection.cursor()
-            sql = f'select * from trips t where t.id={id_}'
+            sql = f'select * from trips where id={id_}'
             cursor.execute(sql)
             res = cursor.fetchone()
             return Trip(*res) if res else None
@@ -119,8 +119,10 @@ def main() -> None:
     # print(Trip.insert(Trip(destination='STH', price=Decimal('2000'), tourists_number=50, agency_id=4)))
     # print(Trip.delete_by_id(3))
     # print(Trip.find_all())
+    # print(Trip.find_all_by_agency_id(1))
+    print(Trip.find_by_id(1))
     print(Trip.find_all_by_agency_id(1))
-
+    print(Trip.find_all_by_agency_id(2))
 
 
 if __name__ == '__main__':

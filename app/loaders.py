@@ -1,10 +1,7 @@
 import sqlite3
-import os
-from dotenv import load_dotenv
 from abc import ABC, abstractmethod
-from models import Trip, TravelAgency
+from app.models import Trip, TravelAgency
 from typing import Any
-
 
 
 class DataLoader(ABC):
@@ -29,5 +26,4 @@ class TxtDataLoader(DataLoader):
     def load(self, source: str) -> list[Any]:
         with open(source, 'r') as f:
             lines = [line.strip().split(';') for line in f.readlines()]
-            print(lines)
-            return [TravelAgency(*line) for line in lines]
+            return [TravelAgency(id=int(line[0]), name=line[1], city=line[2]) for line in lines]

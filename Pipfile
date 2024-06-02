@@ -8,6 +8,7 @@ alembic = "*"
 sqlalchemy = "*"
 coverage = "*"
 python-dotenv = "*"
+pytest = "*"
 
 [dev-packages]
 
