@@ -121,3 +121,29 @@ class TravelAgency:
     def from_string(cls, line: str) -> Self:
         id_, name, city = line.strip().split(';')
         return cls(id=int(id_), name=name, city=city)
+
+    @staticmethod
+    def get_all_agencies(filename: str) -> list['TravelAgency']:
+        with open(filename, 'r') as f:
+            return [TravelAgency.from_string(row) for row in f.readlines()]
+
+    @staticmethod
+    def delete_all_agencies(filename: str) -> None:
+        with open(filename, 'w'):
+            pass
+
+    @staticmethod
+    def _get_last_travel_agency_id(filename: str) -> int:
+        with open(filename, 'r') as f:
+            lines = f.readlines()
+            if lines:
+                last_line = lines[-1]
+                return int(last_line[0])
+
+    @staticmethod
+    def add_travel_agency(filename: str, name: str, city: str) -> None:
+        with open(filename, 'a') as f:
+            id_ = TravelAgency._get_last_travel_agency_id(filename)
+            travel_agency_id = id_ + 1 if id_ else 1
+            new_agency_data = ';'.join([str(travel_agency_id), name, city])
+            f.write('\n' + new_agency_data if travel_agency_id != 1 else new_agency_data)
