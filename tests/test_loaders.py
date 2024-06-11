@@ -1,11 +1,10 @@
 import unittest
 from config import test_db_name
-import pytest
 from app.loaders import TxtDataLoader, DbDataLoader
 from app.model import Trip, TravelAgency
 from alembic.config import Config
 from alembic import command
-from decimal import Decimal
+from tests.test_model import Trips
 
 
 class TestTxtLoader:
@@ -31,8 +30,5 @@ class TestDbLoader(unittest.TestCase):
     def test_loader(self):
         db_data_loader = DbDataLoader()
         expected_trips = db_data_loader.load(self.db_path)
-        trips = [
-            Trip(id_=1, destination='USA', price=Decimal('1000'), tourists_number=30, agency_id=1),
-            Trip(id_=2, destination='EGIPT', price=Decimal('500'), tourists_number=150, agency_id=2)
-        ]
+        trips = [Trips.TRIP_1, Trips.TRIP_2]
         self.assertEqual(trips, expected_trips)
