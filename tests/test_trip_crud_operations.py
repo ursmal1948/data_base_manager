@@ -1,6 +1,6 @@
 import sqlite3
 import unittest
-from config import DB_NAME
+from config import db_name
 from app.model import TravelAgency, Trip
 import pytest
 from unittest.mock import MagicMock, patch
@@ -13,7 +13,7 @@ class TestCrudOperations(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        Trip.DB_NAME = DB_NAME
+        Trip.DB_NAME = db_name
 
     def setUp(self):
         alembic_cfg = Config('alembic.ini')
