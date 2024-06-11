@@ -1,6 +1,6 @@
 import sqlite3
 from abc import ABC, abstractmethod
-from app.models import Trip, TravelAgency
+from app.model import Trip, TravelAgency
 from typing import Any
 
 

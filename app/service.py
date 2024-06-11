@@ -1,4 +1,4 @@
-from app.models import Trip, TravelAgency
+from app.model import Trip, TravelAgency
 from app.loaders import TxtDataLoader
 from enum import Enum
 from dataclasses import dataclass, field

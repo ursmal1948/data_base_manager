@@ -2,7 +2,7 @@ import unittest
 from config import DB_NAME
 import pytest
 from app.loaders import TxtDataLoader, DbDataLoader
-from app.models import Trip, TravelAgency
+from app.model import Trip, TravelAgency
 from alembic.config import Config
 from alembic import command
 from decimal import Decimal

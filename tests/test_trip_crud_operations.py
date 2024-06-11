@@ -1,7 +1,7 @@
 import sqlite3
 import unittest
 from config import DB_NAME
-from app.models import TravelAgency, Trip
+from app.model import TravelAgency, Trip
 import pytest
 from unittest.mock import MagicMock, patch
 from decimal import Decimal
