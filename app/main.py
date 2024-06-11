@@ -1,7 +1,7 @@
 from service import Offer
 from dotenv import load_dotenv
 import os
-from loaders import DbDataLoader, TxtDataLoader
+# from app.loaders import DbDataLoader, TxtDataLoader
 
 # print(DbDataLoader().load('app/trips_db'))
 # agencies = TxtDataLoader().load('data/travel_agencies.txt')

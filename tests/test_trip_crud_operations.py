@@ -9,15 +9,12 @@ from alembic.config import Config
 from alembic import command
 
 
-#
+
 class TestCrudOperations(unittest.TestCase):
 
-    # i konfigruacje jeszce alembica. i moze zeby przed kazdym testem
-    # powracalo to konfiguracji alembica tej head.
     @classmethod
     def setUpClass(cls):
         Trip.DB_NAME = 'app/trips_db'
-
 
     def setUp(self):
         alembic_cfg = Config('alembic.ini')
@@ -41,7 +38,6 @@ class TestCrudOperations(unittest.TestCase):
         trips = Trip.find_all_by_agency_id(2)
         expected_trips = [Trip(id_=2, destination='EGIPT', price=Decimal('500'), tourists_number=150, agency_id=2)]
         self.assertEqual(trips, expected_trips)
-
 
     def test_insert(self):
         initial_numbers_of_trips = len(Trip.find_all())
