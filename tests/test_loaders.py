@@ -1,5 +1,5 @@
 import unittest
-from configuration import db_name
+from config import test_db_name
 import pytest
 from app.loaders import TxtDataLoader, DbDataLoader
 from app.model import Trip, TravelAgency
@@ -23,7 +23,7 @@ class TestTxtLoader:
 class TestDbLoader(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.db_path = db_name
+        cls.db_path = test_db_name
         alembic_cfg = Config('alembic.ini')
         command.downgrade(alembic_cfg, 'base')
         command.upgrade(alembic_cfg, 'head')
