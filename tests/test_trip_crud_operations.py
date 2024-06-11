@@ -1,7 +1,6 @@
-import sqlite3
 import unittest
-from configuration import db_name
-from app.model import TravelAgency, Trip
+from config import test_db_name
+from app.model import Trip
 from decimal import Decimal
 from alembic.config import Config
 from alembic import command
@@ -11,7 +10,7 @@ class TestCrudOperations(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        Trip.DB_NAME = db_name
+        Trip.DB_NAME = test_db_name
 
     def setUp(self):
         alembic_cfg = Config('alembic.ini')

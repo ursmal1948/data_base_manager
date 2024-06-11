@@ -25,5 +25,4 @@ class TxtDataLoader(DataLoader):
 
     def load(self, source: str) -> list[Any]:
         with open(source, 'r') as f:
-            lines = [line.strip().split(';') for line in f.readlines()]
-            return [TravelAgency(id=int(line[0]), name=line[1], city=line[2]) for line in lines]
+            return [TravelAgency.from_string(line) for line in f.readlines()]

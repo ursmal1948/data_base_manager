@@ -1,14 +1,17 @@
 import sqlite3
 from dataclasses import dataclass
 from decimal import Decimal
-from configuration import db_name
+from typing import Self
+from config import db_name
 
 
 @dataclass
 class Trip:
+    DB_NAME = db_name
+
     id_: int | None = None
     destination: str | None = None
-    price: Decimal | None = 0
+    price: Decimal | None = Decimal('0.00')
     tourists_number: int | None = 0
     agency_id: int | None = None
 
@@ -25,34 +28,44 @@ class Trip:
     #     return (f'destination {self.destination} price: {self.price} tourists: {self.tourists_number} '
     #             f'agency:{self.agency_id}')
 
+    @classmethod
+    def _from_db(cls, trip_data: tuple[str | int]) -> Self:
+        return cls(
+            id_=trip_data[0],
+            destination=trip_data[1],
+            price=Decimal(trip_data[2]),
+            tourists_number=trip_data[3],
+            agency_id=trip_data[4]
+        )
+
     @staticmethod
     def find_all() -> list['Trip']:
-        with sqlite3.connect(db_name) as conn:
+        with sqlite3.connect(Trip.DB_NAME) as conn:
             cursor = conn.cursor()
             sql = 'select * from trips'
             cursor.execute(sql)
-            return [Trip(*row) for row in cursor.fetchall()]
+            return [Trip._from_db(row) for row in cursor.fetchall()]
 
     @staticmethod
     def find_all_by_agency_id(agency_id: int) -> list['Trip']:
-        with sqlite3.connect(db_name) as conn:
+        with sqlite3.connect(Trip.DB_NAME) as conn:
             cursor = conn.cursor()
             sql = f'select * from trips where agency_id={agency_id}'
             cursor.execute(sql)
-            return [Trip(*row) for row in cursor.fetchall()]
+            return [Trip._from_db(row) for row in cursor.fetchall()]
 
     @classmethod
     def find_by_id(cls, id_: int) -> 'Trip':
-        with sqlite3.connect(db_name) as connection:
+        with sqlite3.connect(Trip.DB_NAME) as connection:
             cursor = connection.cursor()
             sql = f'select * from trips where id={id_}'
             cursor.execute(sql)
             res = cursor.fetchone()
-            return Trip(*res) if res else None
+            return Trip._from_db(res) if res else None
 
     @staticmethod
     def insert(trip: 'Trip') -> int:
-        with sqlite3.connect(db_name) as connection:
+        with sqlite3.connect(Trip.DB_NAME) as connection:
             cursor = connection.cursor()
             sql = ('insert into trips (destination, price, tourists_number, agency_id) '
                    'values (?, ?, ?, ?)')
@@ -62,7 +75,7 @@ class Trip:
 
     @staticmethod
     def insert_many(trips: list['Trip']) -> int:
-        with sqlite3.connect(db_name) as connection:
+        with sqlite3.connect(Trip.DB_NAME) as connection:
             cursor = connection.cursor()
             sql = ('insert into trips (destination, price, tourists_number, agency_id) '
                    'values (?, ?, ?, ?)')
@@ -75,7 +88,7 @@ class Trip:
 
     @staticmethod
     def delete_by_id(id_: int) -> int:
-        with sqlite3.connect(db_name) as connection:
+        with sqlite3.connect(Trip.DB_NAME) as connection:
             cursor = connection.cursor()
             sql = f'delete from trips where id={id_}'
             cursor.execute(sql)
@@ -84,7 +97,7 @@ class Trip:
 
     @staticmethod
     def delete_all() -> None:
-        with sqlite3.connect(db_name) as connection:
+        with sqlite3.connect(Trip.DB_NAME) as connection:
             cursor = connection.cursor()
             sql = 'delete from trips where id > 0'
             cursor.execute(sql)
@@ -103,3 +116,8 @@ class TravelAgency:
 
     def __hash__(self):
         return hash((self.id,))
+
+    @classmethod
+    def from_string(cls, line: str) -> Self:
+        id_, name, city = line.strip().split(';')
+        return cls(id=int(id_), name=name, city=city)
