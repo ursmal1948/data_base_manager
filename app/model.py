@@ -1,15 +1,11 @@
 import sqlite3
 from dataclasses import dataclass
 from decimal import Decimal
-import os
-from dotenv import load_dotenv
+from configuration import db_name
 
 
 @dataclass
 class Trip:
-    load_dotenv()
-    DB_NAME = os.getenv('DATABASE_NAME')
-
     id_: int | None = None
     destination: str | None = None
     price: Decimal | None = 0
@@ -31,7 +27,7 @@ class Trip:
 
     @staticmethod
     def find_all() -> list['Trip']:
-        with sqlite3.connect(Trip.DB_NAME) as conn:
+        with sqlite3.connect(db_name) as conn:
             cursor = conn.cursor()
             sql = 'select * from trips'
             cursor.execute(sql)
@@ -39,7 +35,7 @@ class Trip:
 
     @staticmethod
     def find_all_by_agency_id(agency_id: int) -> list['Trip']:
-        with sqlite3.connect(Trip.DB_NAME) as conn:
+        with sqlite3.connect(db_name) as conn:
             cursor = conn.cursor()
             sql = f'select * from trips where agency_id={agency_id}'
             cursor.execute(sql)
@@ -47,7 +43,7 @@ class Trip:
 
     @classmethod
     def find_by_id(cls, id_: int) -> 'Trip':
-        with sqlite3.connect(Trip.DB_NAME) as connection:
+        with sqlite3.connect(db_name) as connection:
             cursor = connection.cursor()
             sql = f'select * from trips where id={id_}'
             cursor.execute(sql)
@@ -56,7 +52,7 @@ class Trip:
 
     @staticmethod
     def insert(trip: 'Trip') -> int:
-        with sqlite3.connect(Trip.DB_NAME) as connection:
+        with sqlite3.connect(db_name) as connection:
             cursor = connection.cursor()
             sql = ('insert into trips (destination, price, tourists_number, agency_id) '
                    'values (?, ?, ?, ?)')
@@ -66,7 +62,7 @@ class Trip:
 
     @staticmethod
     def insert_many(trips: list['Trip']) -> int:
-        with sqlite3.connect(Trip.DB_NAME) as connection:
+        with sqlite3.connect(db_name) as connection:
             cursor = connection.cursor()
             sql = ('insert into trips (destination, price, tourists_number, agency_id) '
                    'values (?, ?, ?, ?)')
@@ -79,7 +75,7 @@ class Trip:
 
     @staticmethod
     def delete_by_id(id_: int) -> int:
-        with sqlite3.connect(Trip.DB_NAME) as connection:
+        with sqlite3.connect(db_name) as connection:
             cursor = connection.cursor()
             sql = f'delete from trips where id={id_}'
             cursor.execute(sql)
@@ -88,7 +84,7 @@ class Trip:
 
     @staticmethod
     def delete_all() -> None:
-        with sqlite3.connect(Trip.DB_NAME) as connection:
+        with sqlite3.connect(db_name) as connection:
             cursor = connection.cursor()
             sql = 'delete from trips where id > 0'
             cursor.execute(sql)
@@ -107,23 +103,3 @@ class TravelAgency:
 
     def __hash__(self):
         return hash((self.id,))
-
-
-def main() -> None:
-    # trip1 = Trip(destination='Majorka', price=Decimal('10000'), tourists_number=20, agency_id=2)
-    # trip2 = Trip(destination='OSLO', price=Decimal('20'), tourists_number=100, agency_id=1)
-    # print(Trip.insert(trip2))
-    # print(os.getenv())
-
-    # print(os.getenv('DATABASE_NAME'))
-    # print(Trip.insert(Trip(destination='STH', price=Decimal('2000'), tourists_number=50, agency_id=4)))
-    # print(Trip.delete_by_id(3))
-    # print(Trip.find_all())
-    # print(Trip.find_all_by_agency_id(1))
-    print(Trip.find_by_id(1))
-    print(Trip.find_all_by_agency_id(1))
-    print(Trip.find_all_by_agency_id(2))
-
-
-if __name__ == '__main__':
-    main()

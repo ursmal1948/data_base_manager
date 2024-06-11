@@ -1,5 +1,5 @@
 import unittest
-from config import db_name
+from configuration import db_name
 import pytest
 from app.loaders import TxtDataLoader, DbDataLoader
 from app.model import Trip, TravelAgency

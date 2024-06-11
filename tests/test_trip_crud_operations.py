@@ -1,9 +1,7 @@
 import sqlite3
 import unittest
-from config import db_name
+from configuration import db_name
 from app.model import TravelAgency, Trip
-import pytest
-from unittest.mock import MagicMock, patch
 from decimal import Decimal
 from alembic.config import Config
 from alembic import command
