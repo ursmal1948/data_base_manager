@@ -104,6 +104,8 @@ class Trip:
             connection.commit()
 
 
+
+
 @dataclass
 class TravelAgency:
     id: int
