@@ -9,8 +9,10 @@ sqlalchemy = "*"
 coverage = "*"
 python-dotenv = "*"
 pytest = "*"
+setuptools = "*"
 
 [dev-packages]
+coverage-badge = "*"
 
 [requires]
 python_version = "3.11"
