@@ -14,7 +14,7 @@ a text file. It connects these data sources, enabling comprehensive analysis of 
 operations and trip statistics.
 
 ## Key Features
-- Active Record Approach: used for managing trip data in database allowing to retrieval and manipulation of trip records
+- Active Record Approach: used for managing trip data in database allowing for retrieval and manipulation of trip records
 within the application.
 - Alembic: framework used in project for testing purposes of CRUD operations. Alembic automates setup and teardown 
 processes for testing environments, ensuring consistent database structure across different scenarios.
